@@ -123,7 +123,7 @@ const BookmarkMedia = memo(
                 alt="Video thumbnail"
                 w="100%"
                 h="200px"
-                objectFit="cover"
+                objectFit="contain"
               />
             ) : (
               <Box
@@ -184,7 +184,7 @@ const BookmarkMedia = memo(
                 alt="Tweet image"
                 w="100%"
                 h="200px"
-                objectFit="cover"
+                objectFit="contain"
                 cursor={isInBulkMode ? 'default' : 'pointer'}
                 _hover={isInBulkMode ? {} : { filter: 'brightness(1.1)' }}
                 onClick={(e: React.MouseEvent) => {
@@ -206,7 +206,7 @@ const BookmarkMedia = memo(
                         alt={`Tweet image ${index + 1}`}
                         w="100%"
                         h={images.length === 2 ? '150px' : '100px'}
-                        objectFit="cover"
+                        objectFit="contain"
                         cursor={isInBulkMode ? 'default' : 'pointer'}
                         _hover={
                           isInBulkMode ? {} : { filter: 'brightness(1.1)' }
