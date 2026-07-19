@@ -113,12 +113,9 @@ const BookmarkMedia = memo(
               overflow="hidden"
               border="1px solid var(--color-border)"
             >
-              <video
+              <AutoPlayVideo
                 src={videoUrl}
                 poster={images[0] || undefined}
-                controls
-                playsInline
-                style={{ width: '100%', maxHeight: '400px', display: 'block' }}
               />
             </Box>
           </Box>
