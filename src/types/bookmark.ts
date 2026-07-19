@@ -11,6 +11,7 @@ export interface XTwitterMetadata {
   username: string
   display_name: string
   has_video: boolean
+  video_url?: string
   images?: string[]
   profile_image_normal?: string
   profile_image_bigger?: string
