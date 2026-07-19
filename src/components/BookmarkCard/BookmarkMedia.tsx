@@ -99,8 +99,33 @@ const BookmarkMedia = memo(
 
     const { images, hasVideo } = mediaContent
 
-    // Video indicator
+    // Video playback
     if (hasVideo) {
+      const videoUrl = isXTwitterMetadata(bookmark.metadata)
+        ? bookmark.metadata.video_url
+        : undefined
+
+      if (videoUrl) {
+        return (
+          <Box mb={3}>
+            <Box
+              borderRadius="lg"
+              overflow="hidden"
+              border="1px solid var(--color-border)"
+            >
+              <video
+                src={videoUrl}
+                poster={images[0] || undefined}
+                controls
+                playsInline
+                style={{ width: '100%', maxHeight: '400px', display: 'block' }}
+              />
+            </Box>
+          </Box>
+        )
+      }
+
+      // video_urlが無い場合は従来通りサムネイル＋外部リンク
       return (
         <Box mb={3}>
           <Box
@@ -139,7 +164,6 @@ const BookmarkMedia = memo(
                 🎥 Video Content
               </Box>
             )}
-            {/* External link overlay for videos */}
             <Box
               position="absolute"
               top="50%"
@@ -168,7 +192,6 @@ const BookmarkMedia = memo(
         </Box>
       )
     }
-
     // Images
     if (images.length > 0) {
       return (
