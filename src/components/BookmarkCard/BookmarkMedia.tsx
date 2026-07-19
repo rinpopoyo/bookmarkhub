@@ -4,6 +4,47 @@ import { LuExternalLink } from 'react-icons/lu'
 import { type Bookmark, isXTwitterMetadata } from '@/types/bookmark'
 import { useModal } from '@/components/modals/ModalProvider'
 import LazyImage from '@/components/LazyImage'
+import { useRef, useEffect } from 'react'
+
+function AutoPlayVideo({ src, poster }: { src: string; poster?: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {
+              // 自動再生がブラウザにブロックされた場合は無視
+            })
+          } else {
+            video.pause()
+          }
+        })
+      },
+      { threshold: 0.5 } // 画面に50%以上映ったら再生
+    )
+
+    observer.observe(video)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      poster={poster}
+      muted
+      loop
+      playsInline
+      controls
+      style={{ width: '100%', maxHeight: '400px', display: 'block' }}
+    />
+  )
+}
 
 interface BookmarkMediaProps {
   bookmark: Bookmark
