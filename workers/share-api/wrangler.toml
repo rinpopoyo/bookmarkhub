@@ -5,7 +5,7 @@ compatibility_date = "2024-11-01"
 # KV Namespace for storing shared collections
 [[kv_namespaces]]
 binding = "SHARES"
-id = "ea290435e5894bbeb14d15a508a2e1ea"
+id = "919f97c3983c4af09bc685812da8cc2a"
 preview_id = "4d0dae07e32e4ad58b483340088812da"
 
 [vars]
