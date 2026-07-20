@@ -309,6 +309,45 @@ export default {
       }
     }
 
+    // GET /proxy-video?url=... - Xの動画をサーバー経由で中継する
+    // （ブラウザから直接video.twimg.comへアクセスすると403で拒否されるため）
+    if (request.method === 'GET' && path === '/proxy-video') {
+      const videoUrl = url.searchParams.get('url')
+
+      if (!videoUrl || !videoUrl.startsWith('https://video.twimg.com/')) {
+        return jsonResponse({ error: 'Invalid video URL' }, 400, origin)
+      }
+
+      try {
+        const upstream = await fetch(videoUrl, {
+          headers: {
+            'Referer': 'https://x.com/',
+            'User-Agent': 'Mozilla/5.0 (compatible; BookmarkHubProxy/1.0)',
+          },
+        })
+
+        if (!upstream.ok) {
+          return jsonResponse(
+            { error: `Upstream error: ${upstream.status}` },
+            upstream.status,
+            origin
+          )
+        }
+
+        return new Response(upstream.body, {
+          status: 200,
+          headers: {
+            'Content-Type': upstream.headers.get('Content-Type') || 'video/mp4',
+            'Cache-Control': 'public, max-age=86400',
+            'Access-Control-Allow-Origin': origin,
+          },
+        })
+      } catch (error) {
+        console.error('Video proxy error:', error)
+        return jsonResponse({ error: 'Failed to proxy video' }, 500, origin)
+      }
+    }
+
     // 404 for unknown routes
     return jsonResponse({ error: 'Not found', code: 'NOT_FOUND' }, 404, origin)
   },
