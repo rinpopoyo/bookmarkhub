@@ -9,6 +9,8 @@ import { useRef, useEffect } from 'react'
 function AutoPlayVideo({ src, poster }: { src: string; poster?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
+  const proxiedSrc = `https://bookmarkhub-share-api.rinpopoyo.workers.dev/proxy-video?url=${encodeURIComponent(src)}`
+
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
@@ -35,7 +37,7 @@ function AutoPlayVideo({ src, poster }: { src: string; poster?: string }) {
   return (
     <video
       ref={videoRef}
-      src={src}
+      src={proxiedSrc}
       poster={poster}
       muted
       loop
