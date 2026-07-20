@@ -41,8 +41,8 @@ function AutoPlayVideo({ src, poster }: { src: string; poster?: string }) {
       loop
       playsInline
       controls
-      referrerPolicy="no-referrer"
       style={{ width: '100%', maxHeight: '400px', display: 'block' }}
+      {...({ referrerPolicy: 'no-referrer' } as React.VideoHTMLAttributes<HTMLVideoElement>)}
     />
   )
 }
